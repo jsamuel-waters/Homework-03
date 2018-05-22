@@ -32,36 +32,50 @@ document,onkeyup = function(event) {
     // variable to track if userGuess is in the chosenWord
     var inWord = false;
 
-
-    for (i=0; i < chosenWord.length; i++){
-        if (userGuess == chosenWord[i]){
-            stageWord[i] = chosenWord[i];
-            console.log(stageWord);
-
-            //sets the the state of userGuess as being in chosenWord
-            var inWord = true;
-            // --if
+    // ++if
+    if (guessLog.includes(userGuess,0,) == false) {
+        //do nothing if guessLog contains userGuess
+        // if inWord is found false, user loses 1 remaining try
+        if (inWord == false) {
+            userMisses -= 1;
+            console.log(userMisses);
+            guessLog.push(userGuess);
         };  
-    }   // --for
-    
-    
-    if (inWord == false) {
-        userMisses -= 1;
-        console.log(userMisses);
-        guessLog.push(userGuess);
+        // ++for
+        for (i=0; i < chosenWord.length; i++){
+            if (userGuess == chosenWord[i]){
+                stageWord[i] = chosenWord[i];
+                console.log(stageWord);
+                
+                //sets the the state of userGuess as being in chosenWord
+                var inWord = true;
+                // --if
+        };  // --for
+            
     };
-    
-    // Creating a variable to hold our new HTML. Our HTML now keeps track of the userguesses computer guesses, user tries remaining .
-    var html =
-    "<p>You Chose: " + userGuess + "!</p>" +
-    "<p>Word to guess: " + stageWord + "</p>" +
-    "<p>remaining guesses: " + userMisses + "</p>" ; // +
-    // "<p>losses: " + losses + "</p>" +
-    // "<p>ties: " + ties + "</p>";
-    
+        
+    } // --if
+        
+        //function to print the stageWord
+        var presentHTML = "";
+        function printStageWord() {
+            for (i=0; i < stageWord.length; i++) {
+                presentHTML += " " + stageWord[i];
+            }
+            return presentHTML;
+        }
+        
+        
+        
+        // Creating a variable to hold our new HTML. Our HTML now keeps track of the userguesses computer guesses, user tries remaining .
+        var html =
+        "<p>You Chose: " + userGuess + "!</p>" +
+        "<p>Word to guess: " + printStageWord() + "</p>" +
+        "<p>remaining guesses: " + userMisses + "</p>" +
+        "<p>guesses: " + guessLog + "</p>"; // +
+        // "<p>ties: " + ties + "</p>";
+        
     // Set the inner HTML contents of the #game div to our html string
-
-
     document.querySelector("#game").innerHTML = html;
     
     
